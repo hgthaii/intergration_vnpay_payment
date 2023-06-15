@@ -31,13 +31,6 @@ router.get('/refund', function (req, res, next) {
     res.render('refund', {title: 'Hoàn tiền giao dịch thanh toán'})
 });
 
-router.options("/create_payment_url", function (req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    res.setHeader("Access-Control-Max-Age", "86400");
-    res.sendStatus(200);
-});
 
 router.post('/create_payment_url', function (req, res, next) {
     
@@ -58,7 +51,7 @@ router.post('/create_payment_url', function (req, res, next) {
     let vnpUrl = config.get('vnp_Url');
     let returnUrl = config.get('vnp_ReturnUrl');
     let orderId = moment(date).format('DDHHmmss');
-    let amount = 30000
+    let amount = req.body.amount;
     let bankCode = req.body.bankCode;
     
     let locale = req.body.language;
@@ -93,10 +86,6 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_SecureHash'] = signed;
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    res.setHeader("Access-Control-Max-Age", "86400");
     res.redirect(vnpUrl)
 });
 
