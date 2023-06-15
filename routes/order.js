@@ -31,6 +31,13 @@ router.get('/refund', function (req, res, next) {
     res.render('refund', {title: 'Hoàn tiền giao dịch thanh toán'})
 });
 
+router.options("/create_payment_url", function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Max-Age", "86400");
+    res.sendStatus(200);
+});
 
 router.post('/create_payment_url', function (req, res, next) {
     
