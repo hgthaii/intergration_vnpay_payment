@@ -55,7 +55,7 @@ router.post('/create_payment_url', async (req, res, next) => {
     let amount = 30000
     let bankCode = req.body.bankCode;
     
-    let locale = req.body.language;
+    let locale = 'vn';
     if(locale === null || locale === ''){
         locale = 'vn';
     }
