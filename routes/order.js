@@ -9,6 +9,7 @@ let router = express.Router();
 let $ = require('jquery');
 const request = require('request');
 const moment = require('moment');
+const axios = require("axios");
 
 
 router.get('/', function(req, res, next){
@@ -32,7 +33,7 @@ router.get('/refund', function (req, res, next) {
 });
 
 
-router.post('/create_payment_url', function (req, res, next) {
+router.post('/create_payment_url', async (req, res, next) => {
     
     process.env.TZ = 'Asia/Ho_Chi_Minh';
     
@@ -52,7 +53,7 @@ router.post('/create_payment_url', function (req, res, next) {
     let returnUrl = config.get('vnp_ReturnUrl');
     let orderId = moment(date).format('DDHHmmss');
     let amount = 30000
-    let bankCode = 'NCB';
+    let bankCode = req.body.bankCode;
     
     let locale = req.body.language;
     if(locale === null || locale === ''){
@@ -85,8 +86,7 @@ router.post('/create_payment_url', function (req, res, next) {
     let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex"); 
     vnp_Params['vnp_SecureHash'] = signed;
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
-
-    res.status(200).json(vnpUrl)
+    res.status(200).json(vnpUrl);
 });
 
 router.get('/vnpay_return', function (req, res, next) {
