@@ -6,27 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var order = require('./routes/order');
 require("dotenv").config();
-var cors = require('cors')
 
 var app = express();
-
-const whitelist = [
-    "https://finder-client-zeta.vercel.app",
-    "http://localhost:3000",
-    "https://finder-sooty.vercel.app",
-    "https://vnpay-gpw7.onrender.com",
-    "https://sandbox.vnpayment.vn",
-];
-const corsOptions = {
-    credentials: true,
-    origin: (origin, callback) => {
-        if (!origin || whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error("Trang web này bị block bởi CORS!"));
-        }
-    },
-};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,7 +24,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/order', order);
