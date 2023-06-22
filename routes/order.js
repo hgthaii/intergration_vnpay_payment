@@ -52,7 +52,7 @@ router.post('/create_payment_url', async (req, res, next) => {
     let vnpUrl = config.get('vnp_Url');
     let returnUrl = config.get('vnp_ReturnUrl');
     let orderId = moment(date).format('DDHHmmss');
-    let amount = 30000
+    let amount = req.body.amount
     let bankCode = req.body.bankCode;
     
     let locale = 'vn';
